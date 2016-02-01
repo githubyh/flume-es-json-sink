@@ -22,9 +22,13 @@ import static org.elasticsearch.common.xcontent.XContentFactory.jsonBuilder;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.flume.Context;
@@ -54,6 +58,7 @@ public class ElasticSearchLog4jEventSerializer implements ElasticSearchEventSeri
 
 	public static final Serializer DEFAULT_SERIALIZER_OBJECT = new StringSerializer();
 
+	private static final String FOR_JSON_FIELD = "logBody";
 	private static final String FIELDS = "fields";
 
 	private static ImmutableMap<String, Serializer> serializers = new ImmutableMap.Builder<String, Serializer>()
@@ -77,8 +82,10 @@ public class ElasticSearchLog4jEventSerializer implements ElasticSearchEventSeri
 		JSONObject ob = JSON.parseObject(body);
 		for (int index = 0; index < fieldList.size(); index++) {
 			String key = fieldList.get(index);
-			if(ob.containsKey(key)){
-				serializerData(builder, key, ob.get(key)==null?"":ob.get(key).toString());
+			if(ob.containsKey(key) && ob.get(key) != null){
+				String value =  ob.get(key).toString();
+				if(StringUtils.isNotBlank(value))
+				serializerData(builder, key, value.toString());
 			}
 		}
 	}
@@ -99,8 +106,6 @@ public class ElasticSearchLog4jEventSerializer implements ElasticSearchEventSeri
 
 	private void appendHeaders(XContentBuilder builder, Event event) throws IOException {
 		Map<String, String> headers = event.getHeaders();
-		ObjectMapper o = new ObjectMapper();
-		String s = o.writeValueAsString(headers);
 		for (String key : headers.keySet()) {
 			ContentBuilderUtil.appendField(builder, key, headers.get(key).getBytes(charset));
 		}

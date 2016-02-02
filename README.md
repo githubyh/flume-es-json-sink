@@ -17,7 +17,7 @@ agent1.sinks.sink1.serializer.fields=user_id event_type log_type log_source log_
 agent1.sinks.sink1.ttl=1
 #agent1.sinks.sink1.indexNameBuilder=org.apache.flume.sink.elasticsearch.SimpleIndexNameBuilder
 agent1.sinks.sink1.indexNameBuilder=org.apache.flume.sink.elasticsearch.TimeBasedIndexNameBuilder
---#这里指定每个月一个index， flume-ng-elasticsearch-sink 源码加载dataFormat有个bug，已提交至官方jira
+@注释#这里指定每个月一个index， flume-ng-elasticsearch-sink 源码加载dataFormat有个bug，已提交至官方jira
 agent1.sinks.sink1.indexNameBuilder.dateFormat=yyyy-MM
 
 #agent1.sinks.sink1.serializer.fields.status.serializer=int

@@ -79,6 +79,7 @@ public class ElasticSearchLog4jEventSerializer implements ElasticSearchEventSeri
 //		for (int index = 0; index < list.size(); index++) {
 //			serializerData(builder, fieldList.get(index), list.get(index));
 //		}
+		try{
 		JSONObject ob = JSON.parseObject(body);
 		for (int index = 0; index < fieldList.size(); index++) {
 			String key = fieldList.get(index);
@@ -87,6 +88,10 @@ public class ElasticSearchLog4jEventSerializer implements ElasticSearchEventSeri
 				if(StringUtils.isNotBlank(value))
 				serializerData(builder, key, value.toString());
 			}
+		}
+		}catch(Exception e) {
+			logger.info(body);
+			e.printStackTrace();
 		}
 	}
 

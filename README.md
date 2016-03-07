@@ -28,10 +28,15 @@ agent1.sinks.sink1.ttl=1
 agent1.sinks.sink1.indexNameBuilder=org.apache.flume.sink.elasticsearch.TimeBasedIndexNameBuilder
 
 @注释 这里指定每个月一个index， flume-ng-elasticsearch-sink 源码加载dataFormat有个bug，已提交至官方jira
+
 agent1.sinks.sink1.indexNameBuilder.dateFormat=yyyy-MM
+
 agent1.sinks.sink1.serializer.fields.timestamp.serializer=DATE
+
 agent1.sinks.sink1.serializer.fields.timestamp.locale=en
+
 agent1.sinks.sink1.serializer.fields.timestamp.format=yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+
 @注释agent1.sinks.sink1.serializer.fields.status.serializer=int
 @注释agent1.sinks.sink1.serializer.fields.time_local.serializer=date
 @注释agent1.sinks.sink1.serializer.fields.time_local.format=yyyy-MM-dd HH:mm:ss
